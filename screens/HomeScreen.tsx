@@ -11,7 +11,6 @@ export default function HomeScreen() {
   const [showRewardId, setShowRewardId] = useState<string | null>(null);
   const [habits, setHabits] = useState(getHabitsByPeriod(period));
 
-  // Actualizar hábitos cuando cambie el período
   useEffect(() => {
     setHabits(getHabitsByPeriod(period));
   }, [period, getHabitsByPeriod]);
@@ -22,41 +21,46 @@ export default function HomeScreen() {
 
     updateHabitProgress(id, 1);
 
-    // Verificar si se completó
     if (habit.progress + 1 === habit.goal) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       setShowRewardId(id);
       setTimeout(() => setShowRewardId(null), 2000);
     }
 
-    // Actualizar lista local
     setHabits((prev) =>
       prev.map((h) => (h.id === id ? { ...h, progress: h.progress + 1 } : h))
+    );
+  };
+  const decrementHabit = (id: string) => {
+    const habit = habits.find((h) => h.id === id);
+    if (!habit || habit.progress <= 0) return;
+
+    updateHabitProgress(id, -1);
+
+    setHabits((prev) =>
+      prev.map((h) => (h.id === id ? { ...h, progress: h.progress - 1 } : h))
     );
   };
 
   const habitToShow = showRewardId
     ? habits.find((h) => h.id === showRewardId)
     : null;
+
   const showConfetti = habitToShow && habitToShow.progress === habitToShow.goal;
 
   return (
     <View style={styles.container}>
       <Text style={styles.mainTitle}>🌱 Mis Hábitos</Text>
 
-      {/* Selector de periodo */}
       <View style={styles.periodSelector}>
         {(["Diario", "Semanal", "Mensual"] as Period[]).map((p) => (
           <TouchableOpacity
             key={p}
             onPress={() => setPeriod(p)}
-            style={[
-              styles.periodButton,
-              period === p ? styles.activeButton : {},
-            ]}
+            style={[styles.periodButton, period === p && styles.activeButton]}
           >
             <Text
-              style={[styles.periodText, period === p ? styles.activeText : {}]}
+              style={[styles.periodText, period === p && styles.activeText]}
             >
               {p}
             </Text>
@@ -68,13 +72,13 @@ export default function HomeScreen() {
         habits={habits}
         showRewardId={showRewardId}
         onComplete={completeHabit}
+        onDecrement={decrementHabit}
       />
 
-      {/* Confeti */}
       {showConfetti && habitToShow && (
         <ConfettiCannon
           count={50}
-          origin={{ x: 150, y: 0 }}
+          origin={{ x: 200, y: 0 }}
           fadeOut
           autoStart
           fallSpeed={3000}
@@ -89,10 +93,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#0f172a",
-    alignItems: "center",
     paddingTop: 60,
+    alignItems: "center",
   },
   mainTitle: {
+    textAlign: "center", // 👈 CLAVE
     fontSize: 32,
     fontWeight: "bold",
     color: "#f8fafc",
@@ -103,7 +108,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     marginBottom: 20,
-    paddingHorizontal: 20,
   },
   periodButton: {
     paddingVertical: 10,

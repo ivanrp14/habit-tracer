@@ -8,9 +8,15 @@ type Props = {
   habits: Habit[];
   showRewardId: string | null;
   onComplete: (id: string) => void;
+  onDecrement: (id: string) => void;
 };
 
-export default function HabitList({ habits, showRewardId, onComplete }: Props) {
+export default function HabitList({
+  habits,
+  showRewardId,
+  onComplete,
+  onDecrement,
+}: Props) {
   if (habits.length === 0) {
     return (
       <View style={styles.emptyContainer}>
@@ -25,12 +31,14 @@ export default function HabitList({ habits, showRewardId, onComplete }: Props) {
 
   return (
     <FlatList
+      style={{ width: "75%" }} // 🔥 CLAVE
       data={habits}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <HabitCard
           habit={item}
           onComplete={onComplete}
+          onDecrement={onDecrement}
           showReward={showRewardId === item.id && item.progress === item.goal}
         />
       )}
@@ -42,7 +50,8 @@ export default function HabitList({ habits, showRewardId, onComplete }: Props) {
 
 const styles = StyleSheet.create({
   listContent: {
-    paddingHorizontal: 20,
+    alignItems: "stretch",
+
     paddingBottom: 100,
   },
   emptyContainer: {

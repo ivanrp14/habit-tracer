@@ -12,17 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#0f172a"
     },
-    "plugins": [
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/notification-icon.png",
-          "color": "#38bdf8",
-          "sounds": ["./assets/notification.wav"]
-        }
-      ],
-      "expo-sqlite"
-    ],
+    "plugins": ["expo-sqlite"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.yourname.habitosapp",
@@ -41,6 +31,11 @@
         "android.permission.RECEIVE_BOOT_COMPLETED"
       ],
       "package": "com.yourname.habitosapp"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ff7b4a28-ecce-41bd-a8e5-576a26d81719"
+      }
     }
   }
 }

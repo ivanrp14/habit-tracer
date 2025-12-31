@@ -5,9 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { createAutoBackup } from "../services/backup";
 import * as DB from "../services/database";
-import { initializeScheduler } from "../services/scheduler";
 
 export type Period = "Diario" | "Semanal" | "Mensual";
 
@@ -94,7 +92,6 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
         DB.initDatabase();
 
         // Inicializar scheduler (tareas en background)
-        await initializeScheduler();
 
         // Verificar y resetear hábitos si es necesario
         DB.checkAndResetHabits();
@@ -117,9 +114,6 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
         } else {
           setHabits(loadedHabits);
         }
-
-        // Crear backup automático
-        await createAutoBackup();
 
         console.log("[DB] Inicialización completada");
       } catch (error) {
@@ -156,7 +150,6 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
       setHabits((prev) => [...prev, habit]);
 
       // Crear backup automático después de cambios importantes
-      await createAutoBackup();
 
       console.log("[DB] Hábito agregado:", habit.title);
     } catch (error) {
@@ -196,7 +189,6 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
       setHabits((prev) => prev.filter((h) => h.id !== id));
 
       // Backup después de eliminar
-      await createAutoBackup();
 
       console.log("[DB] Hábito eliminado:", id);
     } catch (error) {
