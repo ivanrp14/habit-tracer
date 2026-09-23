@@ -1,31 +1,31 @@
 # Habit Tracer
 
-App para seguir hábitos: crearlos, marcar el avance y ver estadísticas. El periodo de cada hábito puede ser diario, semanal o mensual.
+An app for tracking habits: create them, mark progress, and see stats. Each habit's period can be daily, weekly, or monthly.
 
-Sustituye el README de plantilla de Expo. La app ya tiene pantallas y persistencia propias.
+This replaces the Expo template README. The app already has its own screens and persistence.
 
-## Qué hay
+## What's here
 
-- Pestañas en `app/(tabs)`: lista (`index`), alta (`create`) y estadísticas (`stats`).
-- `context/HabitsContext.tsx`: estado de los hábitos (título, progreso, meta, unidad, periodo, color).
-- `services/database.ts`: lectura y escritura local.
-- Componentes `HabitCard`, `HabitList` y `ProgressBar`.
-- `screens/HomeScreen.tsx` y un modal en `app/modal.tsx`.
+- Tabs in `app/(tabs)`: list (`index`), create (`create`), and stats (`stats`).
+- `context/HabitsContext.tsx`: habit state (title, progress, goal, unit, period, color).
+- `services/database.ts`: local read and write.
+- `HabitCard`, `HabitList`, and `ProgressBar` components.
+- `screens/HomeScreen.tsx` and a modal in `app/modal.tsx`.
 
 ## Stack
 
-- Expo SDK 54 y Expo Router
-- React Native y TypeScript
-- Notificaciones, hápticos y compartición (`expo-notifications`, `expo-haptics`, `expo-sharing`)
+- Expo SDK 54 and Expo Router
+- React Native and TypeScript
+- Notifications, haptics, and sharing (`expo-notifications`, `expo-haptics`, `expo-sharing`)
 
-## Cómo ejecutarlo
+## How to run
 
 ```bash
 npm install
 npx expo start
 ```
 
-Otros scripts de `package.json`:
+Other scripts from `package.json`:
 
 ```bash
 npm run android
@@ -34,4 +34,4 @@ npm run web
 npm run lint
 ```
 
-`npm run reset-project` ejecuta `scripts/reset-project.js` y deja el árbol como la plantilla de Expo. No lo uses si quieres conservar las pantallas de hábitos.
+`npm run reset-project` runs `scripts/reset-project.js` and resets the tree to the Expo template. Do not use it if you want to keep the habit screens.
